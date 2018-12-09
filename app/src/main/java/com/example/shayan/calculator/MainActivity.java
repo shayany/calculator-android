@@ -31,23 +31,24 @@ public class MainActivity extends AppCompatActivity {
         if (textView.getText().toString().equals("Malformed expression") || textView.getText().toString().equals("Division by zero is undefined")) {
             reset();
         }
-        textView.setText(textView.getText().toString().concat(button.getText().toString()));
+        textView.append(button.getText().toString());
     }
 
-    public void onClickDecimalPoint(View view){
+    public void onClickDecimalPoint(View view) {
         Button button = (Button) view;
-        if(!decimalPoint){
-            textView.setText(textView.getText().toString().concat(button.getText().toString()));
+        if (!decimalPoint) {
+            textView.append(button.getText().toString());
             decimalPoint = true;
         }
     }
+
     public void assignmentOnClick(View view) {
         try {
             textView.setText(calculate(firstNumber, new BigDecimal(textView.getText().toString())).toString());
-        } catch(ArithmeticException e){
+        } catch (ArithmeticException e) {
             textView.setText("Division by zero is undefined");
             reset();
-        } catch(Exception e){
+        } catch (Exception e) {
             reset();
         }
     }
@@ -68,19 +69,20 @@ public class MainActivity extends AppCompatActivity {
         reset();
     }
 
-    private  void reset(){
+    private void reset() {
         firstNumber = endResult = null;
         operator = null;
         textView.setText("");
         decimalPoint = false;
     }
+
     public BigDecimal calculate(BigDecimal number1, BigDecimal number2) {
         switch (operator) {
             case '/':
-                if (number2.equals(0)){
+                if (number2.equals(0)) {
                     throw new ArithmeticException();
                 }
-                endResult = number1.divide(number2,MathContext.DECIMAL128);
+                endResult = number1.divide(number2, MathContext.DECIMAL128);
                 break;
             case '*':
                 endResult = number1.multiply(number2);
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 endResult = number1.remainder(number2);
                 break;
         }
-        if(endResult.doubleValue() == 0){
+        if (endResult.doubleValue() == 0) {
             endResult = BigDecimal.ZERO;
         }
         return endResult;
